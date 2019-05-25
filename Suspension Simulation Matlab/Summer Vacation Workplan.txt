@@ -1,5 +1,0 @@
-Simulating suspension systems is what we are starting with
-Simulation with either equations or simulink anything is fine
-We want good plots that correspond to the environmental force (let's call it Fe) and the motion of the end of spring (x)
-So that profile will give us the damping const, spring const and stuff
-We will need position, velocity plot along with the interaction/environmental/external force

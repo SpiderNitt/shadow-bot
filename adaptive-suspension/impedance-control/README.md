@@ -9,6 +9,4 @@ The designed controller is capable of imposing the desired behavior defined by i
 
 ## Modified dynamics
 
-## Block diagram:
-
 ## Results:

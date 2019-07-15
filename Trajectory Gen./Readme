@@ -11,7 +11,7 @@ splines.The cubic splines require a set of waypoints and a set of time
 stamps during which they have to be traversed through.The waypoints are
 generated from path planning algorithms and the time stamps are to
 determined based on the physical limitations of acceleration and
-velocities of our bot.This trajectory generation aims to generate a setof optimal time intervals which 
+velocities of our bot.This trajectory generation aims to generate a set of optimal time intervals which 
 helps us to construct the required cubic
 spline.Since the optimization problem here is highly convex and non
 linear in case of cubic splines,we employ a method called particle swarm optimization to help us

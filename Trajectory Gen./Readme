@@ -1,1 +1,4 @@
-
+pso1.m - Main Program,run this!!
+PSO.m - The Algorithm
+conv_splineg1.m - finds and returns the spline characteristics
+Sphere.m - The Cost Function

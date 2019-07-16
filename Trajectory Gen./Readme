@@ -15,4 +15,4 @@ velocities of our bot.This trajectory generation aims to generate a set of optim
 helps us to construct the required cubic
 spline.Since the optimization problem here is highly convex and non
 linear in case of cubic splines,we employ a method called particle swarm optimization to help us
-achieve our objectivr.
+achieve our objective.

@@ -5,7 +5,7 @@ An all-terrain vehicle with an adaptive suspension that is capable of climbing o
 
 # Team:
   
-![team](https://github.com/spider-tronix/shadow-bot/blob/master/team.JPG)
+![team](https://github.com/spider-tronix/shadow-bot/blob/master/team.png)
   
   
   • Jack Samuel S [https://github.com/jaxxstar] 

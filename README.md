@@ -1,11 +1,11 @@
 # Shadow-bot
 An all-terrain vehicle with an adaptive suspension that is capable of climbing obstacles (walls).
 
-![alt text](https://github.com/spider-tronix/shadow-bot/blob/master/design/renders/shadowBot.jpg = 500x500)
+![bot](./design/renders/shadowBot.jpg = 500x500)
 
 # Team:
   
-![alt text](https://github.com/spider-tronix/shadow-bot/blob/master/team.JPG = 500x500)
+![team](./team.JPG = 500x500)
   
   
   • Jack Samuel S [https://github.com/jaxxstar] 

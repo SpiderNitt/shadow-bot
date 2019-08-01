@@ -1,0 +1,47 @@
+Design:
+*) Acrylic plate
+*) Front links stabilize 
+*) Bearings
+*) Exact model
+*) Paint job
+
+EDF:
+*) Thrust check (load current, maximum cap)
+*) EDF mount
+
+Suspension:
+*) Adaptive(Proposed) suspension (Parameters/Validation): Sim
+*) Implementation
+*) Collision impact control
+*) Stress test on front links
+
+SIMULATION:
+*) Gazebo simulation
+*) Matlab: 
+------Trajectory
+------EDF
+------Impedance Control
+------System sim
+
+COMPONENTS: (links)
+1) Acrylic laser cutting $
+2) Y-connector @$
+3) 3mm nuts/bolts $
+4) ESC @
+5) Wheels @ 
+6) Pi-cam @
+
+ICRA:
+*Wall climbing mechanism
+*Speed control
+*Adaptive suspension
+*Collision impact control
+
+CONF:
+*) Adaptive suspension with impedance control
+*) Comparison with conventional suspension systems
+
+PATENT:
+*) Cost
+*) Wall climbing mechanism
+*) Adaptive suspension

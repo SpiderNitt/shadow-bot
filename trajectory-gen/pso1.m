@@ -13,7 +13,7 @@ close all;
 %%of optimal time intervals which helps us to construct the required cubic
 %%spline.Since the optimization problem here is highly convex and non
 %%linear in case of cubic splines,we employ a method called particle swarm optimization to help us
-%%achieve our objectivr.
+%%achieve our objective.
 
 problem.CostFunction = @(x,params,A,V) Sphere(x,params,A,V);  % Cost Function
 problem.nVar = 7;       % Number of Unknown (Decision) Variables
@@ -37,16 +37,34 @@ params.V_max = 10;        %Set Max. allowed velocity
 
 %% Calling Particle Swarm Optimizer
 
-out = PSO(problem, params);
+y = [0 2 5 4 8 10 9 14]; %1D Waypoints to be traversed through. 
+x = [0 2 4 6 8 10 12 14]; %1D Waypoints to be traversed through.
 
-BestSol = out.BestSol %Best Solution of time intervals needed
-BestCosts = out.BestCosts;
+out_y = PSO(problem, params,y);
+BestSol_y = out_y.BestSol.Position %Best Solution of time intervals needed
+
+out_x = PSO(problem, params,x);
+BestSol_x = out_x.BestSol.Position %Best Solution of time intervals needed
+
+t_stamps_x = init_time_stamps(BestSol_x);
+t_stamps_y = init_time_stamps(BestSol_y);
+
+for i=1:1:7
+    BestSol(i) = max(BestSol_x(i),BestSol_y(i));
+end
+
+t_stamps = init_time_stamps(BestSol);
+
+tt = 0:0.2:abs(t_stamps(8)+1);
+
+spline_final_trajectory_y = spline(t_stamps,y,tt);
+spline_final_trajectory_x = spline(t_stamps,x,tt);
 
 %% Results
-figure;
-plot(BestCosts, 'LineWidth', 2);
-xlabel('Iteration');
-ylabel('Best Cost');
+plot3(t_stamps,y,x,'o',tt,spline_final_trajectory_y,spline_final_trajectory_x);
 grid on;
+xlabel('Time');
+Ylabel('X');
+Zlabel('Y');
 
 

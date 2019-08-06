@@ -1,7 +1,7 @@
-function a_v = splineg1(init_array)
+function a_v = splineg1(init_array,y_1)
 
 %init_array = zeros(1,8);
-y_1 = [0 2 4 6 8 10 12 14]; %1D Waypoints to be traversed through. 
+%y_1 = [0 2 4 6 8 10 12 14]; %1D Waypoints to be traversed through. 
 yy_1 = spline(init_array,[0,y_1,0]); %Generates the spline
 
 [breaks,coef,L,order,dim] = unmkpp(yy_1);

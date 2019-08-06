@@ -1,4 +1,4 @@
-function out = PSO(problem, params)
+function out = PSO(problem, params ,y)
 
     %% Problem Definiton
 
@@ -64,14 +64,14 @@ function out = PSO(problem, params)
         
         %disp(init_array);
         
-        acc_vel = conv_splineg1(init_array); %Returns the max. velocity and max. acceleration of the spline generated
+        acc_vel = conv_splineg1(init_array,y); %Returns the max. velocity and max. acceleration of the spline generated
         %disp(acc_vel);
         
         %Initialising the particle positions to feasible solution points
         while((acc_vel.A > params.A_max)||(acc_vel.V > params.V_max))
             particle(i).Position = unifrnd(VarMin, VarMax, VarSize);%Initialises time intervals between successive waypoints
             init_array = init_time_stamps(particle(i).Position);%Initialises Linear Time stamps
-            acc_vel = conv_splineg1(init_array); %Returns the max. velocity and max. acceleration of the spline generated
+            acc_vel = conv_splineg1(init_array,y); %Returns the max. velocity and max. acceleration of the spline generated
         end
             
             
@@ -119,7 +119,7 @@ function out = PSO(problem, params)
             
             init_array = init_time_stamps(particle(i).Position); %Update Time Stamps
         
-            acc_vel = conv_splineg1(init_array); %Finding max acceleration and velocity for this spline
+            acc_vel = conv_splineg1(init_array,y); %Finding max acceleration and velocity for this spline
 
             % Evaluation
             disp('Eval');

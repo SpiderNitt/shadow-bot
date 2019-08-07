@@ -13,6 +13,6 @@ generated from path planning algorithms and the time stamps are to
 determined based on the physical limitations of acceleration and
 velocities of our bot.This trajectory generation aims to generate a set of optimal time intervals which 
 helps us to construct the required cubic
-spline.Since the optimization problem here is highly convex and non
+spline.Since the optimization problem here is highly non convex and non
 linear in case of cubic splines,we employ a method called particle swarm optimization to help us
 achieve our objective.

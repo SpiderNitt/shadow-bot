@@ -1,0 +1,44 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <!-- We resume the logic in empty_world.launch -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <!-- urdf xml robot description loaded on the Parameter Server-->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find shadow-bot)/urdf/shadow.xacro'" /> 
+
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -model shadow-bot -param robot_description"/> 
+
+  <rosparam file="$(find shadow-bot)/config/joint_position_control.yaml"
+            command="load"/>
+
+  <node name="robot_state_publisher_shadow" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+            <param name="publish_frequency" type="double" value="30.0" />
+            <param name="ignore_timestamp" type="bool" value="true" />
+            <param name="tf_prefix" type="string" value="shadow" />
+            <remap from="/joint_states" to="/shadow/joint_states" />
+        </node>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" args="joint_state_controller
+                              left_arm_joint
+                              right_arm_joint
+                              --shutdown-timeout 3">
+  </node>
+</launch>

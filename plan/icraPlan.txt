@@ -1,0 +1,69 @@
+TITLE
+Introduction
+----------------------------------0.5 page
+
+Section 1: Design (1st figure: exploded view, 2nd figure: Assembled model)
+
+-----------------------------------1.25 page
+
+Section 2: Powered steering (1 figure, 1 plot)
+    - Subsection: Dynamics (F)
+    - Subsection: Implementation
+    - Subsection: Experimental results (P)
+
+-----------------------------------------2nd page
+
+Section 3: Ackerman steering (1 figure, 1 plot: path)
+    - Subsection: Dynamics
+    - Subsection: Implementation
+    - Subsection: Experimental results (F) (P)
+
+---------------------------------------------- 3rd page
+
+Section 4: Wall climbing (1st figure: on Wall, 2nd figure: Transition cycle, 1 plot)
+    - Subsection: Dynamics (F)
+    - Subsection: Transition (F)
+    - Subsection: Implementation (Trajectory) (P)
+    - Subsection: Experimental results
+
+----------------------------------------------- 4th page
+
+Section 5: Adaptive suspension and collision (1st figure: side view (obstacle), 1 BD: controller, 2nd figure: Rough terrain (camera stabilization), 1 plot: end-effector pos) 
+    - Subsection; Dynamics
+    - Subsection: Implementation (BD)
+    - Subsection: collision (F)
+    - Subsection: Experimental results (F) (P)
+
+------------------------------------------------5th page
+
+Future work: (terrain-RL-suspension)
+Conclusions:
+References: (10-12)
+
+------------------------------------------------6th page
+
+FIGURES: 2 + 1 + 2 + 2 = 7
+PLOTS: 1 + 1 + 1 + 1 = 4
+BD: 1
+
+-------------------------------------------------
+
+Jaxxxx:
+    - Exploded view
+    - Powered steering
+    - On Wall
+
+Senthur:
+    - Gazebo: Ackerman
+    - Wall climbing
+    - collision
+    - BD
+    - MATLAB plots for adaptive suspension
+
+Manu:
+    - Trajectory plot
+    - Ackerman steering curve plot
+
+-------------------------------------------------
+
+12/08/19

@@ -6,13 +6,13 @@ wheel_diameter = 75;
 world_offset_x = 40;
 world_offset_y = 0;
 
-angle_front_ground = 30 * pi/180; % initial degree to radian
-angle_rear_ground = asin(rear_link_length/front_link_length*sin(angle_front_ground));
+angle_rear_ground = 15 * pi/180; % initial degree to radian
+angle_front_ground = asin(rear_link_length/front_link_length*sin(angle_rear_ground));
 
 world_offset = [world_offset_x,world_offset_y,1]';
 %% Calculation
-t1 = homogenous_tansformation(rotation_matrix(angle_front_ground),[world_offset_x,world_offset_y + wheel_diameter/2]);
-t2 = homogenous_tansformation(rotation_matrix(-(angle_front_ground + angle_rear_ground - 5*pi/180)),[front_link_length,0]);
+t1 = homogenous_tansformation(rotation_matrix(angle_rear_ground),[world_offset_x,world_offset_y + wheel_diameter/2]);
+t2 = homogenous_tansformation(rotation_matrix(-(angle_front_ground + angle_rear_ground + 5*pi/180)),[front_link_length,0]);
 %% Positions of the links
 rear_link_end_position = t1 * [rear_link_length,0,1]';  % Same as rear link start position
 front_link_end_position = t1 * t2 *[front_link_length,0,1]';

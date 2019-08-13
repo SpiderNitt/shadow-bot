@@ -1,0 +1,7 @@
+Things Done :
+1.	Created a kinematic model for the bot suspension
+
+Things to do:
+1.	Making the front wheel stationary (not loose contact from the ground) 
+	when simulating ie add contact dynamics with the ground.
+

@@ -77,3 +77,8 @@ end
 function y = homogenous_tansformation(rot_matrix,translation_vector)
     y = [rot_matrix,translation_vector';0 0 1];
 end
+
+
+%% Dynamics:
+
+% WORK TO BE DONE

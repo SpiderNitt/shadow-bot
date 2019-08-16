@@ -1,5 +1,5 @@
 
-ARDUINO FRONT-LINKS:
+ARDUINO FRONT-LINKS/ULTRASONIC:
 
 * A0 - A5 : Motor driver pins
 * D2 : Enable A

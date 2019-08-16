@@ -1,0 +1,20 @@
+
+ARDUINO FRONT-LINKS:
+
+* A0 - A5 : Motor driver pins
+* D2 : Enable A
+* D3 : Enable A
+* D4 : Encoder B
+* D5 : Soft Rx
+* D6 : Soft Tx
+* D7 : Enable B
+
+ARDUINO REAR-WHEELS/EDF:
+
+* A0 - A5 : Motor driver pins
+* D2 : Enable A
+* D3 : Enable A
+* D4 : Encoder B
+* D7 : Enable B
+* D6 : EDF control pin
+

@@ -46,7 +46,7 @@ m22 = mArm*a^2;
 M = [m11 m12; m21 m22]
 
 % Coriolis matrix (C):
-c11 = -mArm*b*a*sin(q2)*(2*q1d*q2d + q2^2);
+c11 = -mArm*b*a*sin(q2)*(2*q1d*q2d + q2d^2);
 c21 = mArm*b*a*q1d^2*sin(q2);
 
 C = [c11; c21]

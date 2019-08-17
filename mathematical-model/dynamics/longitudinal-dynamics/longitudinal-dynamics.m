@@ -1,84 +1,71 @@
-%% Link Properties of the System
-front_link_length = 170;
-rear_link_length = 265;
-wheel_diameter = 75;
+% (ALL DIMENSIONS IN m)
 
-world_offset_x = 40;
-world_offset_y = 0;
+b = 0.265; %body
+a = 0.170; %arm
 
-angle_rear_ground = 15 * pi/180; % initial degree to radian
-angle_front_ground = asin(rear_link_length/front_link_length*sin(angle_rear_ground));
+mBody = 10; %body
+mArm = 5; %arm
 
-world_offset = [world_offset_x,world_offset_y,1]';
-%% Calculation
-t1 = homogenous_tansformation(rotation_matrix(angle_rear_ground),[world_offset_x,world_offset_y + wheel_diameter/2]);
-t2 = homogenous_tansformation(rotation_matrix(-(angle_front_ground + angle_rear_ground + 5*pi/180)),[front_link_length,0]);
-%% Positions of the links
-rear_link_end_position = t1 * [rear_link_length,0,1]';  % Same as rear link start position
-front_link_end_position = t1 * t2 *[front_link_length,0,1]';
-%% Draw links
-hold on;
-dummy_theta = 0:pi/100:2*pi;
+% measure of radius
+rearWheel = 0.110/2;
+frontWheel = 0.075/2;
 
-% Front wheel (movable)
-front_wheel = plot(wheel_diameter/2 * cos(dummy_theta) + front_link_end_position(1),wheel_diameter/2 *sin(dummy_theta) + world_offset(2),'Color','r');
+% "delta" is difference between the radius of front and rear wheels.
+delta = rearWheel - frontWheel;
 
-% Rear wheel
-rear_wheel = plot(wheel_diameter/2 * cos(dummy_theta) + world_offset(1),wheel_diameter/2 *sin(dummy_theta) + world_offset(2) ,'Color','b');
+toRad = 180/pi;
+g = 9.810; % g-constant
 
-% Front Link
-front_link = plot([rear_link_end_position(1),front_link_end_position(1)],[rear_link_end_position(2),front_link_end_position(2)],'Color','y','LineWidth',2);
+q1 = 0;
+q2 = 0;
 
-% Rear Link
-rear_link = plot([world_offset(1),rear_link_end_position(1)],[world_offset(2),rear_link_end_position(2)],'Color','g','LineWidth',2);
+%input torque:
+Tou = [0; 0];
 
+q1d = 0;
+q2d = 0;
+qd = [q1d; q2d];
 
-% Ground
-ground = plot([0,front_link_end_position(1) + 60],[-wheel_diameter/2,-wheel_diameter/2],'LineWidth',2,'Color','black');
+% By lagrangian formulation,
+% Tou = Mqdd + C(qd, q) + G + J'.Fext
 
-legend('Front Wheel','Rear Wheel','Front Link','Rear Link','Ground');
+%___________A__o__q2___________
+%_____________/_\______________
+%_______(b)__/___\_(a)_________
+%___________/_____\____________
+%__________/)q1____\_B_________
+%-(0,0)O--o---------o--(x, y)--
+%##############################
 
-hold off;
+% Mass-matrix (M):
+m11 = mBody*b^2 + mArm*(b^2 + 2*b*a*cos(q2)+a^2);
+m12 = mArm*(b*a*cos(q2) + a^2);
+m21 = mArm*(b*a*cos(q2) + a^2);
+m22 = mArm*a^2;
 
-% %% Animate the suspension
-% for i = angle_front_ground + 1 : 60
-%     i = 30 * pi/180; % initial degree to radian
-%     j = asin(front_link_length/rear_link_length*sin(i))
-% 
-%     world_offset = [world_offset_x,world_offset_y,1]';
-%     t1 = homogenous_tansformation(rotation_matrix(angle_front_ground),[world_offset_x,world_offset_y + wheel_diameter/2]);
-%     t2 = homogenous_tansformation(rotation_matrix(-(angle_front_ground + angle_rear_ground +9*pi/180)),[front_link_length,0]);
-%     front_link_end_position = t1 * [front_link_length,0,1]';  % Same as rear link start position
-%     rear_link_end_position = t1 * t2 *[rear_link_length,0,1]';
-%     hold on;
-%     dummy_theta = 0:pi/100:2*pi;
-%     % Front wheel (movable)
-%     front_link = plot(wheel_diameter/2 * cos(dummy_theta) + world_offset(1),wheel_diameter/2 *sin(dummy_theta) + world_offset(2),'Color','r');
-% 
-%     % Rear wheel
-%     rear_wheel = plot(wheel_diameter/2 * cos(dummy_theta) + rear_link_end_position(1),wheel_diameter/2 *sin(dummy_theta) + rear_link_end_position(2),'Color','b');
-% 
-%     % Front Link
-%     front_link = plot([world_offset(1),front_link_end_position(1)],[world_offset(2),front_link_end_position(2)],'Color','y','LineWidth',2);
-% 
-%     % Rear Link
-%     rear_link = plot([front_link_end_position(1),rear_link_end_position(1)],[front_link_end_position(2),rear_link_end_position(2)],'Color','g','LineWidth',2);
-% 
-%     hold off;
-%     pause(0.1);
-% end
+M = [m11 m12; m21 m22]
 
-%% Roation Matrix function
-function y = rotation_matrix(angle)
-    y = [cos(angle) -sin(angle);sin(angle) cos(angle)];
-end
+% Coriolis matrix (C):
+c11 = -mArm*b*a*sin(q2)*(2*q1d*q2d + q2^2);
+c21 = mArm*b*a*q1d^2*sin(q2);
 
-%% Homogenous transformation
-function y = homogenous_tansformation(rot_matrix,translation_vector)
-    y = [rot_matrix,translation_vector';0 0 1];
-end
+C = [c11; c21]
 
+% G matrix:
+g11 = (mBody + mArm)*b*g*cos(q1) + mArm*g*a*cos(q1 + q2);
+g21 = mArm*g*a*cos(q1 + q2);
 
-%% Dynamics:
+G = [g11; g21]
 
-% WORK TO BE DONE
+% Jacobian matrix (J);
+j11 = -b*sin(q1) - a*sin(q1 + q2);
+j12 = -a*sin(q1 + q2);
+j21 = b*cos(q1) + a*cos(q1 + q2);
+j22 = a*cos(q1 + q2);
+
+J = [j11 j12; j21 j22]
+
+% external force on the front wheel
+Fext = [1; 1]; 
+
+qdd = inv(M) * (Tou - J'*Fext - C - G)

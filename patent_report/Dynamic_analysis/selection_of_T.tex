@@ -1,0 +1,55 @@
+\subsection {Selection of \textbf{T} and \textbf{M_{r}}} 
+
+Consider the bot as shown in Fig.~\ref{top_view}. Let the thrust force provided by the EDF be $\textbf{T}$ \textit{kgf} and the mass of the bot be $\textbf{W}$ \textit{kgf}. When the bot is trying to climb a wall of average coefficient of kinetic friction $\mu$, the following conditions should be satisfied,\\
+For No Sliding in the Wall Surface,
+\begin{equation}\label{no_sliding}
+T \geq \frac{W}{\mu}
+\end{equation}
+
+And for No Toppling from the Wall Surface,
+\begin{equation}\label{no_toppling}
+W \leq T * \frac{x}{c}
+\end{equation}
+where \textbf{x} is the distance of the EDF centre from the rear wheel of the bot and \\
+\textbf{c} is the clearance of the bot with the ground.\\
+
+The required motor torque, \textbf{$M_r$} for the rear wheels to remain in contact with the wall at all times is 
+\begin{equation}\label{motor_torque}
+M_r \geq \frac{W*R}{2}
+\end{equation}
+where \textbf{R} is the radius of the wheel.\\
+
+Since we have a range of Thrust, \textbf{T} and Motor torque, \textbf{$M_r$} values to choose from, it must be ensured that the following conditions are always met for the bot to be able to climb on walls,
+
+\begin{equation}\label{thrust_check}
+T \geq \frac{W*c - M_r}{x}
+\end{equation}
+
+In order to choose the required \textbf{T} and \textbf{W}, the following plots were made :
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/TvsW.png}\\
+  \caption{T vs W plots for different $\frac{x}{c}$ ratios}\label{TvsW}
+  \end{center}
+\end{figure}
+
+From Fig.~\ref{TvsW} it is evident that the maximum \textbf{W} that can be lifted for a given value of \textbf{T} is obtained when the EDF is placed at \textit{twice} the clearance of the bot, from the rear end.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/TvsTorque.png}\\
+  \caption{T vs $M_r$ plots for different $\frac{x}{c}$ ratios}\label{TvsTorque}
+  \end{center}
+\end{figure}
+
+From Fig.~\ref{TvsTorque} it can be inferred that for a given \textbf{T}, \textbf{$M_r$} required to maintain the bot's contact is maximum at \textit{twice} the clearance of the bot, from the rear end.
+
+Thus from the plots it can be concluded that :
+\begin{itemize}
+    \item There is a trade-off between the payload capacity of the bot and Motor torques for a given amount of Thrust. This can be varied to suit the bot's application, ie for defense applications weight cannot be compromised whereas for inspection in chimneys bot weight can be reduced and thus reducing the cost of the bot.
+    \item The $W_{min}$ of the bot that the thrust can support depends on $\mu$ and \textbf{T} only and is independent of other parameters.
+    \begin{equation}
+        W_{min} = \mu * T
+    \end{equation}
+\end{itemize} 

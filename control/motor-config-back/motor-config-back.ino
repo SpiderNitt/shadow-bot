@@ -17,8 +17,8 @@ void setup()
   }
 void loop()
 {
-    analogWrite(REnable,200);
+    analogWrite(REnable,150);
     digitalWrite(RFwd,HIGH);          
-    analogWrite(LEnable,200);
+    analogWrite(LEnable,150);
     digitalWrite(LFwd,HIGH);
 }

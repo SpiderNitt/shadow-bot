@@ -2,14 +2,14 @@
 #include <SoftwareSerial.h>
 SoftwareSerial mySerial(14,15);// 
 
-#define LEnable 10 //Motor Enamble pin Runs on PWM signal
-#define LFwd  11  // Motor Forward pin
-#define LRev  12 // Motor Reverse pin
-#define REnable 9
-#define RRev 4  //find out fwd and rev pins
-#define RFwd 5
+#define LEnable 17 //Motor Enamble pin Runs on PWM signal
+#define LFwd  19  // Motor Forward pin
+#define LRev  18 // Motor Reverse pin
+#define REnable 16
+#define RRev 15  //find out fwd and rev pins
+#define RFwd 14
 #define encoderPinLA 2
-#define encoderPinLB 6
+#define encoderPinLB 4
 #define encoderPinRA 3
 #define encoderPinRB 7
                       

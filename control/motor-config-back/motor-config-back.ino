@@ -1,10 +1,10 @@
 //Code to rotate both Front motors in fwd direction
 #define LEnable 17
-#define LFwd  19  
-#define LRev  18
+#define LFwd  18  
+#define LRev  19
 #define REnable 16
-#define RRev  15  
-#define RFwd  14
+#define RRev  14
+#define RFwd  15
 void setup() 
   {
   pinMode(REnable, OUTPUT);

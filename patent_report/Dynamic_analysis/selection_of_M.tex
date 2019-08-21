@@ -1,0 +1,52 @@
+\subsection {Selection of \textbf{$M_f$}}
+
+Since front links also share the load of the bot, the minimum torque required to actuate the front links,$M_f$ against the inertial forces must also be analyzed.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/front_links.png}\\
+  \caption{Orientation of the bot in a given state}\label{front_links}
+  \end{center}
+\end{figure}
+
+Consider a bot orientation as shown in the figure.
+Analysing the bot using the method of \textbf{virtual work} to obtain the min Motor torque required we get,\\
+Let the distance of the center of mass of the bot from the rear wheels be \textbf{x} and the length of the front links be \textbf{L}.\\
+Let's say that the motor produces a torque,$M_f$  to actuate the front wheels,\\
+The work done by the motor to rotate the link by an angle $d\theta$ is $M_f * d\theta$.\\
+To find Work done by gravity :\\
+Using sine rule in the triangle ABC we get,
+
+\begin{equation}\label{sine_rule}
+    \frac{sin(\theta}{x} = \frac{sin(\alpha)}{L}
+\end{equation}
+
+let the height of the centre of mass of the bot from the ground be \textbf{h},
+
+\begin{equation}
+    h = x * sin(\alpha)
+\end{equation}
+
+but from equation~\ref{sine_rule}, we get,
+\begin{equation}
+    x * sin(\alpha) = L * sin(\theta)
+\end{equation}
+Relating the unknown variables in terms of the known variables using the above equations,  
+Work done by gravity for a small displacement $d\theta$ is $-W * x \ *cos(\theta) * d\theta$,\\
+the minus sign indicates that the gravity does negative work.\\
+Work done by the normal reactions $N_1 \ and \ N_2 \ is \ 0$, since there is not net displacement in the vertical direction.\\
+But Frictional force $Fr_{2}$, does some work.\\
+let the distance of the front wheel from the point of connection of the front links be y then,\\
+$y \ = \ x * cos(\theta)$\\
+Work done by frictional force  = $Fr_{2} * x * sin(\theta)*d\theta$\\
+Now using work energy theorem we get,\\ $W_{net} \ = \Delta KE_{system}$,
+ but since the system is at rest,  
+$ KE_{system} \ = \ 0 $
+and we get,\\
+$ -W * \ x  * \ cos(\theta) * \ d\theta \ + \ Fr_{2} \ * \ x \ * \ sin(\theta)* \ d\theta \ + \ M_{f} * \ d\theta \ = \ 0 $.
+
+Thus $M_{f} \ = W \ * \ x  * \ cos(\theta) * \ d\theta \ - \ Fr_{2} \ * \ x \ * \ sin(\theta)* \ d\theta$,
+
+At $\theta = 0 ^ o$,\\ \\
+$M_{f} \ = \frac{W*L*l}{x}$,\\ \\
+which is the minimum Motor Torque required for the front links to be actuated.

@@ -1,0 +1,13 @@
+\section{Adaptive Suspension}
+Adaptive suspension is one of the key features of shadow bot. The dynamics of the front links can be altered to that of any spring constant and damping constant value thus making it behave as if different springs are being for suspension depending in the load.
+
+Initially the front links are set a desired position. Whenever it encounters an impact the position deviates from the set-point. This change is sensed by the encoders in the motors and error(change in the position) is computed. An impulse of current is sent to the motor which produces a counter torque to balance the impact. Since the frequency of the clock on the on-board CPU is 8MHz, it takes utmost a few milliseconds to react without any delay as electrical components actuate the link whereas in conventional suspensions a lot of delay (on the timescale of electrical actuation) is introduced due to the presence of mechanical and fluid elements in the system.
+
+\begin{figure}[h]
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/graph_suspension.jpg}
+  \caption{Dynamic behaviour of the link to a varying input}\label{suspesnion_graph}
+  \end{center}
+\end{figure}
+
+Figure~\ref{suspesnion_graph} shows the response of the link to a varying input. The rise in displacement is the disturbance created from the set position and the fall of displacement is the system's response to the situation. It is observed that the system tries to establish equilibrium is quickier than the time taken to cause the disturbance.

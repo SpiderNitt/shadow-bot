@@ -1,0 +1,23 @@
+\section{ATR Design}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/Shadow_Bot_3.jpg}\\
+  \caption{Top View of the the proposed design}\label{top_view}
+  \end{center}
+\end{figure}
+The proposed bot design has a set of 2 independently actuated front links who dynamic behaviour can be altered and a set of differential drive rear wheels. Both the rear wheels and the front link positions are actuated using an encoder DC motor. An (Electrically Ducted Fan) EDF is placed in the centre of the bot which provides the necessary thrust during wall climbing to counteract the weight of the bot and provides a kind of drag reduction system during ground motion, aerodynamically aiding the bot's motion in that direction.
+
+%-------------------------------
+%   Side View of the bot
+%------------------------------
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=3.5in]{photo/Shadow_Bot_1.jpg}\\
+  \caption{Side View of the the proposed design}\label{side_view}
+  \end{center}
+\end{figure}
+
+Slits are cutout from the side of the bot in order to reduce the weight and also to provide an air cooling to the electrical components within the bot. The motors are repeated energizing and de-energizing using an impulse of current in the order of 1 or 2 amperes and over time the current heats the motors due to Joule's Heating Effect and thus needs to be cooled.
+
+Provisions for ultrasound distance sensors and camera are provided in the front of the bot. The cameras help in sensing the environment and relaying the obtained data to a remote location through the on-board WiFi module. The ultrasound sensors help in detecting obstacles, if any, in the advancing direction and the on-board computer sends the appropriate signals to actuate the front links and avoid it.

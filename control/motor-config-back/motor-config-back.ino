@@ -13,7 +13,9 @@ void setup()
   pinMode(LEnable, OUTPUT);
   pinMode(LFwd, OUTPUT); 
   pinMode(LRev, OUTPUT);
-  Serial.begin(9600);     
+  //Serial.begin(9600); 
+  delay(3000);
+    
   }
 void loop()
 {

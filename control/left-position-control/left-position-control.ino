@@ -3,7 +3,7 @@
 //--------------- ENCODER PINS/VARIABLES -----------------//
 
 #define encoderPinLA 2
-#define encoderPinLB 6
+#define encoderPinLB 4
 int PPR = 4920;  // Encoder Pulse per revolution.
 int angle = 360; // Maximum degree of motion.
 int left_aState;
@@ -11,15 +11,15 @@ int left_counter;
 
 //---------------- MOTOR PINS/VARIABLES ------------------//
 
-#define LEnable 10 //Motor Enamble pin Runs on PWM signal
-#define LFwd  11  // Motor Forward pin
-#define LRev  12 // Motor Reverse pin
+#define LEnable 17 //Motor Enamble pin Runs on PWM signal
+#define LFwd  19  // Motor Forward pin
+#define LRev  18 // Motor Reverse pin
 int User_InputL = 0;
 int REVL = 0;
 
 //------------------- PID VARIABLES ----------------------//
 
-double kpl = 0.65, kil = 0, kdl = 0 /10000; // modify for optimal performance
+double kpl = 20, kil = 0, kdl = 10 /10000; // modify for optimal performance
 double inputl = 0, outputl = 0, setpointl = 0;
 PID myPIDL(&inputl, &outputl, &setpointl, kpl, kil, kdl, DIRECT);
 
@@ -51,14 +51,14 @@ void loop()
 {
   User_InputL = 0;
   REVL = remap(User_InputL);
-  Serial.print("REVL: "); 
-  Serial.print(REVL);
+  //Serial.print("REVL: "); 
+ // Serial.print(REVL);
   //Serial.print("\t"); 
 
   setpointl = REVL;
   inputl = left_counter;
-  Serial.print("LC: ");
-  Serial.print(inputl);
+ // Serial.print("LC: ");
+  Serial.println(inputl);
   
   myPIDL.Compute();
   pwmOutl(outputl);

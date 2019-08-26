@@ -3,7 +3,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "~/Downloads/arduino-1.8.9/hardware/tools/avr/avr/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

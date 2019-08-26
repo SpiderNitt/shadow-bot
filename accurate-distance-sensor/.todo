@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<todo version="0.1.20">
+    <note priority="medium" time="1566847376">
+        set pins for sensor
+    </note>
+    <note priority="medium" time="1566847401">
+        echo pin interrupt config
+    </note>
+</todo>

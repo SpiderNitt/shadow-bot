@@ -52,6 +52,12 @@
               izz="${m*r*r/2}" /> 
   </macro>
 
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <!-- <robotNamespace>/arboc</robotNamespace> -->
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
+    </plugin>
+  </gazebo>
 
  <link name="base_footprint">
     <inertial>
@@ -133,7 +139,7 @@
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
   
-    <joint name="left_arm_joint" type="revolute">
+  <joint name="left_arm_joint" type="revolute">
     <parent link="base_link"/>
     <child link="left_arm"/>
     <origin xyz="0.0930 0.09 -0.0135" rpy="0 0 0" />
@@ -145,10 +151,10 @@
   <transmission name="left_arm_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="left_arm_joint">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="left_arm_joint_motor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>500</mechanicalReduction>
     </actuator>
   </transmission>
@@ -193,10 +199,10 @@
   <transmission name="right_arm_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="right_arm_joint">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
     </joint>
     <actuator name="right_arm_joint_motor">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
       <mechanicalReduction>500</mechanicalReduction>
     </actuator>
   </transmission>
@@ -221,8 +227,12 @@
       <alwaysOn>true</alwaysOn>
 
       <updateRate>100.0</updateRate>
-      <leftJoint>front_left_wheel_joint</leftJoint>
-      <rightJoint>front_right_wheel_joint</rightJoint>
+      <leftJoint name="front_left_wheel_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </leftJoint>
+      <rightJoint name="front_right_wheel_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>   
+      </rightJoint>
       <wheelSeparation>${2*base_radius}</wheelSeparation>
       <wheelDiameter>${2*wheel_radius}</wheelDiameter>
       <broadcastTF>1</broadcastTF>

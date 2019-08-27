@@ -54,6 +54,8 @@
 
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <!-- <robotNamespace>/arboc</robotNamespace> -->
+      <!-- <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType> -->
     </plugin>
   </gazebo>
 
@@ -223,14 +225,9 @@
       <publishTf>1</publishTf>
       <publishWheelJointState>false</publishWheelJointState>
       <alwaysOn>true</alwaysOn>
-
       <updateRate>100.0</updateRate>
-      <leftJoint name="front_left_wheel_joint">
-        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-      </leftJoint>
-      <rightJoint name="front_right_wheel_joint">
-        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>   
-      </rightJoint>
+      <leftJoint>front_left_wheel_joint</leftJoint>
+      <rightJoint>front_right_wheel_joint</rightJoint>
       <wheelSeparation>${2*base_radius}</wheelSeparation>
       <wheelDiameter>${2*wheel_radius}</wheelDiameter>
       <broadcastTF>1</broadcastTF>

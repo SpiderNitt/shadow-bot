@@ -37,8 +37,8 @@
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
         output="screen" args="joint_state_controller
-                              left_arm_joint
-                              right_arm_joint
+                              left_arm_joint_pc
+                              right_arm_joint_pc
                               --shutdown-timeout 3">
   </node>
 </launch>

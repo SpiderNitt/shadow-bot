@@ -2,13 +2,13 @@ joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 10 
 
-left_arm_joint:
-   type: effort_controllers/JointPositionController
-   joint: joint_01
+left_arm_joint_pc:
+   type: position_controllers/JointPositionController
+   joint: left_arm_joint
    pid: {p: 3.0, i: 0.0, d: 0}
    #pid: {p: 50.0, i: 0.1, d: 0.0}
-right_arm_joint:
-   type: effort_controllers/JointPositionController
-   joint: joint_02
+right_arm_joint_pc:
+   type: position_controllers/JointPositionController
+   joint: right_arm_joint
    pid: {p: 3.0, i: 0.0, d: 0}
    #pid: {p: 50.0, i: 0.1, d: 0.0}

@@ -16,29 +16,32 @@ enum PinMode {
 class UltraSonicSensor {
 private:
     Pin echoPin, triggerPin;
-    volatile int distance;
+    volatile unsigned long distance;
     enum {
-        idle, measuring
+        idle, measuring, waiting
     } status;
-    volatile int timer2Overflows;
+    volatile unsigned long timer2Overflows;
 
     void setPin (Pin pin, bool value);
     bool readPin (Pin pin);
     void setPinMode (Pin pin, PinMode mode);
 
-    void wait(int us);
+    void wait(unsigned long us);
     
     void sendTriggerPulse();
+    void updateDistance(unsigned long newDistance);
 
 public:
-    UltraSonicSensor (Pin trigger, Pin echo);
+    UltraSonicSensor (Pin trigger);
 
-    void timer2OverflowHandler();
+    void timer2CompAHandler();
     void echoPinRisingEdgeHadler();
 
     void start();
     void stop();
-    int getDistance();
+    unsigned long getDistance();
+
+    void test();
 };
 
 #endif

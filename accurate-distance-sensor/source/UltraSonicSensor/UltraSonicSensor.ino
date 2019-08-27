@@ -6,22 +6,28 @@
 #include "UltraSonicSensor.h"
 
 //sensor at pin
-UltraSonicSensor sensor = UltraSonicSensor(Pin('A', 1), Pin('B', 3));
+UltraSonicSensor sensor = UltraSonicSensor(Pin('D', 0));
 
 int main() {
     sei(); //enable global interrupts
+    Serial.begin(9600);
+    Serial.print("Hello\n");
     sensor.start();
 
     while (1) {
         //display the distance
-        int d = sensor.getDistance();
+        unsigned long d = sensor.getDistance();
+        Serial.print(d);
+        Serial.print('\n');
     }
 
     return 0;
 }
 
 ISR (TIMER2_COMPA_vect) {
-    sensor.timer2OverflowHandler();
+    sensor.timer2CompAHandler();
 }
 
-// echo pin interrupt
+ISR (INT0_vect) {
+    sensor.echoPinRisingEdgeHadler();
+}

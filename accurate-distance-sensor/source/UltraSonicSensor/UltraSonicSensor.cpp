@@ -62,9 +62,9 @@ void UltraSonicSensor::setPinMode(Pin pin, PinMode mode) {
     }
 }
 
-UltraSonicSensor::UltraSonicSensor(Pin trigger, Pin echo) {
+UltraSonicSensor::UltraSonicSensor(Pin trigger) {
     triggerPin = trigger;
-    echoPin = echo;
+    echoPin = Pin('C', 2);
 
     setPinMode(triggerPin, output);
     setPinMode(echoPin, input);
@@ -74,47 +74,61 @@ UltraSonicSensor::UltraSonicSensor(Pin trigger, Pin echo) {
     timer2Overflows = 0;
 }
 
-void UltraSonicSensor::wait(int us) {
+void UltraSonicSensor::wait(unsigned long us) {
+    status = waiting;
     TCCR2A = (1 << WGM21);
+    TCNT2 = 0;
     OCR2A = us * 2;
-    TCCR2B = (1 << CS21);
-    TIMSK2 &= !(1 << OCIE2A);
+    TIMSK2 = 0;
+    TCCR2B = (1 << CS21); //prescalar: 8
     while (!(TIFR2 & (1 << OCF2A)));
     TCCR2B = 0;
 }
 
 void UltraSonicSensor::sendTriggerPulse() {
     setPin(triggerPin, false);
-    wait (10);
+    wait (2);
     setPin(triggerPin, true);
-    wait (50);
+    wait (10);
     setPin(triggerPin, false);
 
-    status = measuring;
     timer2Overflows = 0;
 
     //start counting
     TCCR2A = (1 << WGM21);
-    TIMSK2 |= (1 << OCIE2A);
+    TIMSK2 = (1 << OCIE2A);
     OCR2A = 100 * 2;
-    TCCR2B = (1 << CS21);
+    TCNT2 = 0;
+
+    //set interrupt to rising edge
+    EICRA = (1 << ISC00) | (1 << ISC01);
 }
 
-void UltraSonicSensor::timer2OverflowHandler() {
+void UltraSonicSensor::timer2CompAHandler() {
     if (status == measuring)
         timer2Overflows ++;
 }
 
 void UltraSonicSensor::echoPinRisingEdgeHadler() {
-    if (status == measuring) {
-        int time = timer2Overflows * 100 + TCNT1 / 2;
-        distance = time * 34 / 100; //approx distance
+    if (status == waiting) {
+        status = measuring;
+        
+        //start measuring
+        TCCR2B = (1 << CS21);
+
+        //change the interrupt to falling edge
+        EICRA = (1 << ISC01);
+    }
+    else if (status == measuring) {
+        unsigned long time = timer2Overflows * 100l + TCNT2 / 2;
+        unsigned long d = time / 58; //approx 
+        updateDistance(d);
         
         sendTriggerPulse();
     }
 }
 
-int UltraSonicSensor::getDistance() {
+unsigned long UltraSonicSensor::getDistance() {
     return distance;
 }
 
@@ -129,10 +143,22 @@ Pin::Pin(char Port, int Pin) {
 }
 
 void UltraSonicSensor::start() {
+    EIMSK = (1 << INT0);
     sendTriggerPulse();
 }
 
 void UltraSonicSensor::stop() {
     TCCR2B = 0;
     status = idle;
+}
+
+void UltraSonicSensor::test() {
+    Pin testPin = Pin('B', 5);
+    setPinMode(testPin, output);
+    setPin(testPin, false);
+}
+
+void UltraSonicSensor::updateDistance(unsigned long newDistance) {
+    //Current logic: update distance
+    distance = newDistance;
 }

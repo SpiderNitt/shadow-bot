@@ -7,7 +7,7 @@
   <property name="wheel_height" value="0.02" />
   <property name="arm_wheel_height" value="0.025" />
   <property name="wheel_mass" value="0.15" /> 
-  <property name="arm_wheel_mass" value="0.075" /> 
+  <property name="arm_wheel_mass" value="0.005" /> 
   
   <property name="base_x_origin_to_wheel_origin" value="-0.110" />
   <property name="base_y_origin_to_wheel_origin" value="0.095" />
@@ -36,17 +36,55 @@
       </collision>
       <inertial>
         <mass value="${wheel_mass}" />
-        <origin xyz="0 0 0" />
+        <origin xyz="0 0 0" rpy="${flipY*M_PI/2} 0 0 " />
         <cylinder_inertia  m="${wheel_mass}" r="${wheel_radius}" h="${wheel_height}" />
       </inertial>
     </link>
 
     <gazebo reference="${fb}_${lr}_wheel">
-      <mu1 value="1.0"/>
-      <mu2 value="1.0"/>
-      <kp  value="10000000.0" />
-      <kd  value="1.0" />
-      <fdir1 value="1 0 0"/>
+      <friction>
+        <ode>
+          <mu>1.0</mu>
+          <mu2>0.75</mu2>
+          <fdir1>1 0 0</fdir1>
+          <slip1>0</slip1>
+          <slip2>0</slip2>
+        </ode>
+        <torsional>
+          <coefficient>0.0</coefficient>
+          <patch_radius>0</patch_radius>
+          <surface_radius>0</surface_radius>
+          <use_patch_radius>1</use_patch_radius>
+          <ode>
+            <slip>0</slip>
+          </ode>
+        </torsional>
+      </friction>
+      <bounce>
+        <restitution_coefficient>1</restitution_coefficient>
+        <threshold>1e+06</threshold>
+      </bounce>
+      <contact>
+        <collide_without_contact>0</collide_without_contact>
+        <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+        <collide_bitmask>1</collide_bitmask>
+        <ode>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+          <kp>1e+13</kp>
+          <kd>1</kd>
+          <max_vel>0.01</max_vel>
+          <min_depth>0</min_depth>
+        </ode>
+        <bullet>
+          <split_impulse>1</split_impulse>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+          <kp>1e+13</kp>
+          <kd>1</kd>
+        </bullet>
+      </contact>    
       <material>Gazebo/Grey</material>
       <turnGravityOff>false</turnGravityOff>
     </gazebo>
@@ -57,7 +95,7 @@
       <origin xyz="${translateX} ${translateY} ${translateZ}" rpy="0 0 0" /> 
       <axis xyz="0 1 0" rpy="0  0" />
       <limit effort="100" velocity="100"/>
-      <joint_properties damping="0.0" friction="0.0"/>
+      <joint_properties damping="0.5" friction="100.0"/>
     </joint>
 
     <!-- Transmission is important to link the joints and the controller -->
@@ -91,17 +129,55 @@
       </collision>
       <inertial>
         <mass value="${arm_wheel_mass}" />
-        <origin xyz="0 0 0" />
+        <origin xyz="0 0 0" rpy="${flipY*M_PI/2} 0 0 " />
         <cylinder_inertia  m="${arm_wheel_mass}" r="${arm_wheel_radius}" h="${arm_wheel_height}" />
       </inertial>
     </link>
 
     <gazebo reference="${fb}_${lr}_wheel">
-      <mu1 value="1.0"/>
-      <mu2 value="1.0"/>
-      <kp  value="10000000.0" />
-      <kd  value="1.0" />
-      <fdir1 value="1 0 0"/>
+      <friction>
+        <ode>
+          <mu>1.0</mu>
+          <mu2>0.25</mu2>
+          <fdir1>1 0 0</fdir1>
+          <slip1>0</slip1>
+          <slip2>0</slip2>
+        </ode>
+        <torsional>
+          <coefficient>0.0</coefficient>
+          <patch_radius>0</patch_radius>
+          <surface_radius>0</surface_radius>
+          <use_patch_radius>1</use_patch_radius>
+          <ode>
+            <slip>0</slip>
+          </ode>
+        </torsional>
+      </friction>
+      <bounce>
+        <restitution_coefficient>1</restitution_coefficient>
+        <threshold>1e+06</threshold>
+      </bounce>
+      <contact>
+        <collide_without_contact>0</collide_without_contact>
+        <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+        <collide_bitmask>1</collide_bitmask>
+        <ode>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+          <kp>1e+13</kp>
+          <kd>1</kd>
+          <max_vel>0.01</max_vel>
+          <min_depth>0</min_depth>
+        </ode>
+        <bullet>
+          <split_impulse>1</split_impulse>
+          <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+          <soft_cfm>0</soft_cfm>
+          <soft_erp>0.2</soft_erp>
+          <kp>1e+13</kp>
+          <kd>1</kd>
+        </bullet>
+      </contact>    
       <material>Gazebo/Grey</material>
       <turnGravityOff>false</turnGravityOff>
     </gazebo>
@@ -111,7 +187,7 @@
       <child link="${fb}_${lr}_wheel"/>
       <origin xyz="${translateX} ${translateY} ${translateZ}" rpy="0 0 0" /> 
       <axis xyz="0 1 0" rpy="0  0" />
-      <limit effort="100" velocity="100"/>
+      <limit effort="10000" velocity="10000"/>
       <joint_properties damping="0.0" friction="0.0"/>
     </joint>
 

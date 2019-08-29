@@ -28,7 +28,7 @@
   <property name="base_mass" value="2.5" /> 
 
   <!-- arm -->
-  <property name="arm_mass" value="0.15" /> 
+  <property name="arm_mass" value="1.0" /> 
 
   <!-- wheels -->
   <property name="wheel_mass" value="0.2" /> 
@@ -87,7 +87,7 @@
 
     </inertial>    
     <visual>
-      <origin xyz="0.015 0 -0.03" rpy="0 0 0" />
+      <origin xyz="0.003 0 0.0065" rpy="0 0 ${M_PI/2}" />
       <geometry>
         <mesh filename="package://shadow-bot/meshes/dae/chassis.dae"/>
       </geometry>
@@ -108,17 +108,17 @@
   <link name="left_arm">
     <inertial>
       <mass value="${arm_mass}" />
-      <origin xyz="0.085 0 0" rpy="0 0 0 " />
+      <origin xyz="0.085 0 0" rpy="0 0 0" />
       <!--The 3x3 rotational inertia matrix. -->
         <box_inertia  m="${arm_mass}" x="0.170" y="0.015" z="0.025" />
-
     </inertial>    
+
     <visual>
-      <origin xyz="-0.0775 -0.13115 0" rpy="0 0 0" />
+      <origin xyz="0.0625 0.02 0.0115" rpy="${-M_PI/5} 0 ${M_PI/2}" />
       <geometry>
-        <mesh filename="package://shadow-bot/meshes/dae/leftArmWheel.dae"/>
+        <mesh filename="package://shadow-bot/meshes/dae/left-arm.dae"/>
       </geometry>
-      <material name="Black" />
+      <material name="White" />
     </visual>  
     <collision>
       <origin xyz="0.085 0 0" rpy="0 0 0 " />
@@ -128,7 +128,7 @@
     </collision>     
   </link>
   <gazebo reference="left_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/White</material>
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
   
@@ -156,17 +156,16 @@
   <link name="right_arm">
     <inertial>
       <mass value="${arm_mass}" />
-      <origin xyz="0.085 0 0" rpy="0 0 0 " />
+      <origin xyz="0.085 0 0" rpy="0 0 0" />
       <!--The 3x3 rotational inertia matrix. -->
         <box_inertia  m="${arm_mass}" x="0.170" y="0.015" z="0.025" />
-
     </inertial>    
     <visual>
-      <origin xyz="-0.0775 0.05115 0" rpy="0 0 0" />
+      <origin xyz="0.0625 -0.02 0.0115" rpy="${-M_PI/5} 0 ${M_PI/2}" />
       <geometry>
-        <mesh filename="package://shadow-bot/meshes/dae/rightArmWheel.dae"/>
+        <mesh filename="package://shadow-bot/meshes/dae/right-arm.dae"/>
       </geometry>
-      <material name="Black" />
+      <material name="White" />
     </visual>  
     <collision>
       <origin xyz="0.085 0 0" rpy="0 0 0 " />
@@ -176,7 +175,7 @@
     </collision>     
   </link>
   <gazebo reference="right_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/White</material>
     <turnGravityOff>false</turnGravityOff>
   </gazebo>
   
@@ -204,10 +203,10 @@
 <!-- Wheel Definitions -->
 
   <wheel fb="front" lr="right" parent="base_link" translateX="${base_x_origin_to_wheel_origin}" translateY="${base_y_origin_to_wheel_origin}" translateZ="${base_z_origin_to_wheel_origin}" flipY="1"/>
-  <wheel fb="front" lr="left" parent="base_link" translateX="${base_x_origin_to_wheel_origin}" translateY="-${base_y_origin_to_wheel_origin}" translateZ="${base_z_origin_to_wheel_origin}" flipY="1"/>
+  <wheel fb="front" lr="left" parent="base_link" translateX="${base_x_origin_to_wheel_origin}" translateY="-${base_y_origin_to_wheel_origin}" translateZ="${base_z_origin_to_wheel_origin}" flipY="-1"/>
 	   
   <arm_wheel fb="arm" lr="right" parent="right_arm" translateX="${arm_x_origin_to_wheel_origin}" translateY="${arm_y_origin_to_wheel_origin}" translateZ="${arm_z_origin_to_wheel_origin}" flipY="1"/>
-  <arm_wheel fb="arm" lr="left" parent="left_arm" translateX="${arm_x_origin_to_wheel_origin}" translateY="${-1 * arm_y_origin_to_wheel_origin}" translateZ="${arm_z_origin_to_wheel_origin}" flipY="1"/>
+  <arm_wheel fb="arm" lr="left" parent="left_arm" translateX="${arm_x_origin_to_wheel_origin}" translateY="${-1 * arm_y_origin_to_wheel_origin}" translateZ="${arm_z_origin_to_wheel_origin}" flipY="-1"/>
 	   
   <!-- Differential drive controller  -->
   <gazebo>
@@ -233,3 +232,4 @@
     </plugin>
   </gazebo> 
 </robot>
+

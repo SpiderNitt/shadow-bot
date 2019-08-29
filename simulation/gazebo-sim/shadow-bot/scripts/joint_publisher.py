@@ -3,13 +3,14 @@
 import rospy
 from std_msgs.msg import String
 from std_msgs.msg import Float64
+import numpy as np
 
 class JointPub(object):
     def __init__(self):
-
+        self.t = 0.0
         self.publishers_array = []
-        self.left_arm_joint = rospy.Publisher('/shadow/left_arm_joint/command', Float64, queue_size=1)
-        self.right_arm_joint = rospy.Publisher('/arboc/right_arm_joint/command', Float64, queue_size=1)
+        self.left_arm_joint = rospy.Publisher('/left_arm_joint_pc/command', Float64, queue_size=1)
+        self.right_arm_joint = rospy.Publisher('/right_arm_joint_pc/command', Float64, queue_size=1)
 
         self.publishers_array.append(self.left_arm_joint)
         self.publishers_array.append(self.right_arm_joint)
@@ -25,22 +26,20 @@ class JointPub(object):
           self.right_arm_joint.publish(joint_value)
           publisher.publish(joint_value)
           i = i+1
-        rospy.loginfo("*************************************************************************************") 
+        rospy.loginfo("---------------") 
 
 
-    def start_loop(self, rate_value = 2.0):
+    def start_loop(self, rate_value = 2.0, dt=1.0/2):
         rospy.loginfo("Starting Control")
-        pos1 = [-1.0,1.0]
-        pos2 = [1.0,-1.0]
-        position = "pos1"
+        omega = 2
+        theta = 0.0*np.pi
+        sign = 1
         rate = rospy.Rate(rate_value)
         while not rospy.is_shutdown():
-          if position == "pos1":
-            self.move_joints(pos1)
-            position = "pos2"
-          else:
-            self.move_joints(pos2)
-            position = "pos1"
+          self.t += dt
+          theta = 0.25*np.pi #+ 0.1*np.pi*np.sin(omega*self.t)
+          pos = [theta, theta]
+          self.move_joints(pos)
           rate.sleep()
 
 
@@ -51,8 +50,8 @@ if __name__=="__main__":
     joint_publisher = JointPub()
 
     #** tweak the publication rate **#
-    rate_value = 0.5
-    joint_publisher.start_loop(rate_value)
+    rate_value = 10
+    joint_publisher.start_loop(rate_value=rate_value, dt=1.0/rate_value)
 
   except rospy.ROSInterruptException:
     pass

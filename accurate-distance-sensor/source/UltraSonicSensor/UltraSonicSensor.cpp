@@ -121,14 +121,14 @@ void UltraSonicSensor::echoPinRisingEdgeHadler() {
     }
     else if (status == measuring) {
         unsigned long time = timer2Overflows * 100l + TCNT2 / 2;
-        unsigned long d = time / 58; //approx 
+        float d = time / 58.0f; //approx 
         updateDistance(d);
         
         sendTriggerPulse();
     }
 }
 
-unsigned long UltraSonicSensor::getDistance() {
+float UltraSonicSensor::getDistance() {
     return distance;
 }
 
@@ -158,7 +158,7 @@ void UltraSonicSensor::test() {
     setPin(testPin, false);
 }
 
-void UltraSonicSensor::updateDistance(unsigned long newDistance) {
-    //Current logic: update distance
+void UltraSonicSensor::updateDistance(float newDistance) {
+    // update distance
     distance = newDistance;
 }

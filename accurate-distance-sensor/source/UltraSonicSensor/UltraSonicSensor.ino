@@ -11,12 +11,11 @@ UltraSonicSensor sensor = UltraSonicSensor(Pin('D', 0));
 int main() {
     sei(); //enable global interrupts
     Serial.begin(9600);
-    Serial.print("Hello\n");
     sensor.start();
 
     while (1) {
         //display the distance
-        unsigned long d = sensor.getDistance();
+        float d = sensor.getDistance();
         Serial.print(d);
         Serial.print('\n');
     }

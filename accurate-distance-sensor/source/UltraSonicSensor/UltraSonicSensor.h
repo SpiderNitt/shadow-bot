@@ -16,7 +16,8 @@ enum PinMode {
 class UltraSonicSensor {
 private:
     Pin echoPin, triggerPin;
-    volatile unsigned long distance;
+    volatile float distance;
+
     enum {
         idle, measuring, waiting
     } status;
@@ -29,7 +30,7 @@ private:
     void wait(unsigned long us);
     
     void sendTriggerPulse();
-    void updateDistance(unsigned long newDistance);
+    void updateDistance(float newDistance);
 
 public:
     UltraSonicSensor (Pin trigger);
@@ -39,7 +40,7 @@ public:
 
     void start();
     void stop();
-    unsigned long getDistance();
+    float getDistance();
 
     void test();
 };

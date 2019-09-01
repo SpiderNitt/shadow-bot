@@ -32,12 +32,12 @@ void rightEncoderISR()
   rightPulse = micros() - rightTime;
   rightTime = micros();
   rightSpeed = ((rightPulse)*0.073170732);
-  //Serial.println(rightSpeed);
+  Serial.println(rightSpeed);
 }
 
 void leftEncoderISR()
 {
   leftPulse = micros() - leftTime;
   leftTime = micros();
-  //Serial.println('2');
+  Serial.println('2');
 }

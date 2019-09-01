@@ -58,7 +58,7 @@ void loop()
   setpointl = REVL;
   inputl = left_counter;
  // Serial.print("LC: ");
-  Serial.println(inputl);
+  //Serial.println(inputl);
   
   myPIDL.Compute();
   pwmOutl(outputl);
@@ -92,6 +92,7 @@ void updateLEncoder()
      {
        left_counter --;
      }
+     Serial.println("2");
 }
 
 void pwmOutl(int outl) 

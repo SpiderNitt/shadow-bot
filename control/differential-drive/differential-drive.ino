@@ -1,67 +1,124 @@
 // Pins used on arduino
 #define rEncoder 3
-#define lEncoder 2
-#define rpwm 16
-#define ldir 4
-#define rdir 7
-#define lpwm 17
+
+#define REnable 16
+#define RRev  14
+#define RFwd  15
+
+#define LEnable 17
+#define LFwd  18  
+#define LRev  19
 
 // Variables used in interrupts
 double rightPulse;
 double rightTime;
 double rightWheel;
 
-double leftPulse;
-double leftTime;
-double leftWheel;
 
-float rightSpeed = 0, leftSpeed = 0; // Actual Speed in Relvolutions Per Second (RPS)
-float desiredRPS = 0.70; // Desired Speed in Relvolutions Per Second (RPS)
-int desiredBotSpeed = 255; // Fixed disired Robot Wheel Speed (PWM value to motor)
-int rightWheelSpeed = 160; // Variable Robot Wheel Speed (PWM value to motor)
-int leftWheelSpeed = 160; // Variable Robot Wheel Speed (PWM value to motor)
+float rightSpeed = 0;       // Actual Speed in Relvolutions Per Second (RPS)
+float desiredRPS = 0.70;    // Desired Speed in Relvolutions Per Second (RPS)
+int rightWheelSpeed = 160;  // Variable Robot Wheel Speed (PWM value to motor)
 
-void setup(){
+//------------------- PID VARIABLES FOR RIGHT----------------------//
+double error = 0;
+double speedInp = 0; //make it NEGATIVE
+double setpointR = 0;
+double speedr = 0;
+int overshootflagr = 0;
+double errord = 0;
+double preverror = 0;
+double errori = 0;
+double controlinput = 0;
+double kpr = 500.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
+
+
+void setup()
+{
   
   Serial.begin(9600);
   
   pinMode(rEncoder, INPUT);
-  pinMode(lEncoder, INPUT);
   
-  pinMode(rpwm, OUTPUT);
-  pinMode(rdir, OUTPUT);
-  pinMode(lpwm, OUTPUT);
-  pinMode(ldir, OUTPUT);
-  
-  // Enable the pull up resistors for the encoders
-  digitalWrite(rEncoder, HIGH);
-  digitalWrite(lEncoder, HIGH);
-  // Enable interrupts 0 and 1 on pins D2 and D3
+  pinMode(rEncoder, INPUT);
+  pinMode(REnable, OUTPUT);
+  pinMode(RFwd, OUTPUT); 
+  pinMode(RRev, OUTPUT); 
+
+  pinMode(LEnable, OUTPUT);
+  pinMode(LFwd, OUTPUT); 
+  pinMode(LRev, OUTPUT);  
+  pinMode(rEncoder, INPUT_PULLUP); 
   attachInterrupt(1, rightEncoderISR, CHANGE);
-  attachInterrupt(0, leftEncoderISR, CHANGE);
   
   // Turn on motors
-  analogWrite(rpwm, rightWheelSpeed);
-  analogWrite(lpwm, leftWheelSpeed);
   
-}// End Setup
+}
 
 void loop(){
-  digitalWrite(ldir, HIGH);
-  digitalWrite(rdir, LOW);
-  rightSpeed = ((rightPulse*0.073170732)/1000); // microseconds to seconds, 1 pulse is equal to 0.07317032 degree
-  leftSpeed = ((leftPulse*0.073170732)/1000);
-  Serial.print(rightSpeed);
-  Serial.print('\t');
-  Serial.println(leftSpeed);
+  analogWrite(LEnable, 150);
+  digitalWrite(LFwd, HIGH);
+  analogWrite(REnable, 150);
+  digitalWrite(RFwd, HIGH);
+  rightSpeed = ((rightPulse*0.073170732)); // microseconds to seconds, 1 pulse is equal to 0.07317032 degree
 }
 
 void rightEncoderISR(){
-  rightPulse = millis() - rightTime;
-  rightTime = millis();
+  rightPulse = micros() - rightTime;
+  rightTime = micros();
+  Serial.println(rightSpeed);
+  pidr();
+}
+void pidr()
+{ /*
+    right,left :: 30,150 Straight line
+    
+  */
+  setpointR = 2/10000000;  //Revolutions per 0.1 Seconds
+  speedr = rightSpeed;
+  error = speedr - setpointR;
+  Serial.println(error);
+  errord = (error -preverror);
+  errori += (error);
+  controlinput = (kpr*error) + (kdr*errord) + (kir*errori);
+  preverror = error;
+   if(controlinput > 255)
+  {
+    controlinput = 255;
+  }
+  else if( controlinput < -255)
+  {
+    controlinput = -255;
+  }
+  if (controlinput>30)
+  {
+    forwardr();
+    analogWrite(LEnable,controlinput);
+    
+  }
+  else if(controlinput < -30)
+  {
+    reverser();    
+    analogWrite(REnable,abs(controlinput));
+  }
+  else 
+  {
+    finishr();
+  }
+}
+void forwardr () 
+{
+  digitalWrite(RFwd, HIGH); 
+  digitalWrite(RRev, LOW); 
 }
 
-void leftEncoderISR(){
-  leftPulse = millis() - leftTime;
-  leftTime = millis();
+void reverser () 
+{
+  digitalWrite(RFwd, LOW); 
+  digitalWrite(RRev, HIGH); 
+}
+
+void finishr () 
+{
+  digitalWrite(RFwd, LOW); 
+  digitalWrite(RRev, LOW); 
 }

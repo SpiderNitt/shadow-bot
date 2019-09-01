@@ -49,16 +49,17 @@ double controlinput = 0;
 double dt = 0;
 
 //JACK PROOF
-double kpr = 500.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
+double kpr = 10.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
 //------------------- PID VARIABLES FOR LEFT ----------------------//
+int i = 45;
 
 //IF THE MOTOR DRIVER HEATS UP, THE MOTORS GO CRAZY
 //TO BE FINE TUNED
 
-double kpl = 5.0, kil = 0.5, kdl = 500/10000; // modify for optimal performance
+double kpl = .65, kil = 0.0, kdl = 6/10000; // modify for optimal performance
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
@@ -97,9 +98,8 @@ void setup()
 
 void loop() 
 {
-
-  angleInp = -10;     //right, negative here is downward in bot
-  User_InputL = 10;   //left, positive here is downward in bot
+  angleInp = -i;     //right, negative here is downward in bot
+  User_InputL = i;   //left, positive here is downward in bot
   
   REVL = remapl(User_InputL);
   setpointl = REVL;

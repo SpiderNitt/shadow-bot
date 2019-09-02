@@ -48,7 +48,8 @@ double errori = 0;
 double controlinput = 0;
 double dt = 0;
 
-double kpr = .2, kir = 0, kdr = 0/10000; // modify for optimal performance
+//double kpr = .1, kir = 0.01, kdr = 0/10000; // modify for optimal performance
+double kpr = 0, kir = 0, kdr = 0/10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
@@ -58,7 +59,7 @@ double inputr = 0, outputr = 0, setpointr = 0;
 //TO BE FINE TUNED
 int i = 45; //Link angles
 
-double kpl = .04, kil = 0.0, kdl = 0/10000; // modify for optimal performance
+double kpl = .01, kil = 0.0009, kdl = 0/10000; // modify for optimal performance
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
@@ -78,7 +79,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  Serial.begin(9600); //initialize serial comunication
+ // Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -277,7 +278,7 @@ void pwmOutl(int controlinput)
   {
     finishl();
   }
-  Serial.println(controlinput);
+  //Serial.println(controlinput);
 
 }
 

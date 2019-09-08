@@ -48,8 +48,8 @@ double errori = 0;
 double controlinput = 0;
 double dt = 0;
 
-//double kpr = .1, kir = 0.01, kdr = 0/10000; // modify for optimal performance
-double kpr = 0, kir = 0, kdr = 0/10000; // modify for optimal performance
+//JACK PROOF
+double kpr = 5.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
@@ -59,7 +59,8 @@ double inputr = 0, outputr = 0, setpointr = 0;
 //TO BE FINE TUNED
 int i = 45; //Link angles
 
-double kpl = .01, kil = 0.0009, kdl = 0/10000; // modify for optimal performance
+double kpl = 0.3, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+//double kpl = 0.015, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
@@ -79,7 +80,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
- // Serial.begin(9600); //initialize serial comunication
+  //Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -99,8 +100,8 @@ void setup()
 void loop() 
 {
 
-  angleInp = -90;     //right, negative here is downward in bot
-  User_InputL = 60;   //left, positive here is downward in bot
+  angleInp = -60;     //right, negative here is downward in bot
+  User_InputL = 45;   //left, positive here is downward in bot
   
   REVL = remapl(User_InputL);
   setpointl = REVL;
@@ -114,40 +115,24 @@ void loop()
   setpointR = angleInp;
   thetar = invRemap(right_counter);
   thetal = invRemap(left_counter);
-  if (overshootflagl == 1)
+ /* if (overshootflagl == 1)
   {
     //Serial.println("Left Cutoff");
-    //finishl();
-   // delay(100);
+    finishl();
+    delay(100);
   }
   if (overshootflagr == 1)
   {
     //Serial.println("Right Cutoff");
-   // finishr();
-   // delay(100);
-  }
+    finishr();
+    delay(100);
+  }*/
   error = thetar - setpointR;
   errord = (error -preverror);
   errori += (error);
   controlinput = (kpr*error) + (kdr*errord) + (kir*errori);
 
-  if(controlinput > 230)
-  {
-    controlinput = 230;
-  }
-  else if( controlinput < -230)
-  {
-    controlinput = -230;
-  }
   
-  if(controlinput < 150 && controlinput >10)
-  {
-    controlinput = 150;
-  }
-  else if( controlinput > -150 && controlinput < -10)
-  {
-    controlinput = -150;
-  }
   if(controlinput > 230)
   {
     controlinput = 230;
@@ -156,13 +141,20 @@ void loop()
   {
     controlinput = -230;
   }
-
-  if (controlinput>=150)
+    if(controlinput < 120 && controlinput > 10)
+  {
+    controlinput = 120;
+  }
+  else if( controlinput > -120 && controlinput< -10 )
+  {
+    controlinput = -120;
+  }
+  if (controlinput>120)
   {
     forwardr();
     analogWrite(REnable,controlinput);
   }
-  else if(controlinput <= -150)
+  else if(controlinput < -120)
   {
     reverser();
     analogWrite(REnable,abs(controlinput));
@@ -268,18 +260,22 @@ void pwmOutl(int controlinput)
   {
     forwardl();
     analogWrite(LEnable,controlinput);
+    //forwardr();
+    //analogWrite(REnable,controlinput);
+
   }
   else if(controlinput <= -150)
   {
     reversel();
     analogWrite(LEnable,abs(controlinput));
+    //reverser();
+    //analogWrite(REnable,abs(controlinput));
   }
   else 
   {
     finishl();
   }
-  //Serial.println(controlinput);
-
+    //Serial.println(controlinput);
 }
 
 void forwardl () 
@@ -324,15 +320,12 @@ int remapl (int thetal)
 }
 int remapr (int thetar)
 {
-  // jack-proof
   int pulser = floor(13.667 * thetar);
   return pulser;
 }
 int invRemap(int counter)
 {
-  // jack-proof
   int angle = counter*0.073170732;
   linkangler = (angle%360);
-  //Serial.println(linkangler);
   return linkangler;
 }

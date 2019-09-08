@@ -59,8 +59,8 @@ double inputr = 0, outputr = 0, setpointr = 0;
 //TO BE FINE TUNED
 int i = 45; //Link angles
 
-double kpl = 0.05, kil = 0.000, kdl = 0/10000; // modify for optimal performance
-//double kpl = 0.05, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
+double kpl = 0.015, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+//double kpl = 0.015, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;

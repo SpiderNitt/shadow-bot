@@ -48,18 +48,18 @@ double errori = 0;
 double controlinput = 0;
 double dt = 0;
 
-//JACK PROOF
-double kpr = 500.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
+//double kpr = .1, kir = 0.01, kdr = 0/10000; // modify for optimal performance
+double kpr = 0.15, kir = 0, kdr = 0/10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
 //------------------- PID VARIABLES FOR LEFT ----------------------//
-int i = 45;
 
 //IF THE MOTOR DRIVER HEATS UP, THE MOTORS GO CRAZY
 //TO BE FINE TUNED
+int i = 45; //Link angles
 
-double kpl = 500, kil = 0.0, kdl = 0/10000; // modify for optimal performance
+double kpl = 0.0, kil = 0.0, kdl = 0/10000; // modify for optimal performance
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
@@ -79,7 +79,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  //Serial.begin(9600); //initialize serial comunication
+ // Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -89,7 +89,7 @@ void setup()
   
   myPIDL.SetMode(AUTOMATIC);          //set PID in Auto mode
   myPIDL.SetSampleTime(1);            //refresh rate of PID controller
-  myPIDL.SetOutputLimits(-150, 150);  //this is the MAX PWM value to move motor, here change in value reflect change in speed of motor.
+  myPIDL.SetOutputLimits(-255, 255);  //this is the MAX PWM value to move motor, here change in value reflect change in speed of motor.
    //--------- Timer setup ----------//
   TCCR1B = TCCR1B & 0b11111000 | 1;
   //analogWrite(REnable,0);
@@ -98,8 +98,9 @@ void setup()
 
 void loop() 
 {
-  angleInp = -i;     //right, negative here is downward in bot
-  User_InputL = i;   //left, positive here is downward in bot
+
+  angleInp = -90;     //right, negative here is downward in bot
+  User_InputL = 60;   //left, positive here is downward in bot
   
   REVL = remapl(User_InputL);
   setpointl = REVL;
@@ -110,42 +111,58 @@ void loop()
   
   myPIDL.Compute();
   pwmOutl(outputl);
-
   setpointR = angleInp;
   thetar = invRemap(right_counter);
   thetal = invRemap(left_counter);
   if (overshootflagl == 1)
   {
     //Serial.println("Left Cutoff");
-    finishl();
-    delay(100);
+    //finishl();
+   // delay(100);
   }
   if (overshootflagr == 1)
   {
     //Serial.println("Right Cutoff");
-    finishr();
-    delay(100);
+   // finishr();
+   // delay(100);
   }
   error = thetar - setpointR;
   errord = (error -preverror);
   errori += (error);
   controlinput = (kpr*error) + (kdr*errord) + (kir*errori);
 
+  if(controlinput > 230)
+  {
+    controlinput = 230;
+  }
+  else if( controlinput < -230)
+  {
+    controlinput = -230;
+  }
   
-  if(controlinput > 150)
+  if(controlinput < 150 && controlinput >10)
   {
     controlinput = 150;
   }
-  else if( controlinput < -150)
+  else if( controlinput > -150 && controlinput < -10)
   {
     controlinput = -150;
   }
-  if (controlinput>10)
+  if(controlinput > 230)
+  {
+    controlinput = 230;
+  }
+  else if( controlinput < -230)
+  {
+    controlinput = -230;
+  }
+
+  if (controlinput>=150)
   {
     forwardr();
     analogWrite(REnable,controlinput);
   }
-  else if(controlinput < -10)
+  else if(controlinput <= -150)
   {
     reverser();
     analogWrite(REnable,abs(controlinput));
@@ -230,20 +247,29 @@ void updateREncoder()
 
 void pwmOutl(int controlinput) 
 {
-  if(controlinput > 200)
+  if(controlinput > 230)
   {
-    controlinput = 200;
+    controlinput = 230;
   }
-  else if( controlinput < -200)
+  else if( controlinput < -230)
   {
-    controlinput = -200;
+    controlinput = -230;
   }
-  if (controlinput>10)
+  
+  if(controlinput < 150 && controlinput >10)
+  {
+    controlinput = 150;
+  }
+  else if( controlinput > -150 && controlinput < -10)
+  {
+    controlinput = -150;
+  }
+  if (controlinput>=150)
   {
     forwardl();
     analogWrite(LEnable,controlinput);
   }
-  else if(controlinput < -10)
+  else if(controlinput <= -150)
   {
     reversel();
     analogWrite(LEnable,abs(controlinput));
@@ -252,7 +278,8 @@ void pwmOutl(int controlinput)
   {
     finishl();
   }
-  
+  //Serial.println(controlinput);
+
 }
 
 void forwardl () 

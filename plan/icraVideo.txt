@@ -1,0 +1,20 @@
+TIME		TOPIC																FORMAT
+10		Paper Title, About the bot 													Text
+
+30		System Modelling and Dynamics													Video
+		i)Power Steering with and without EDF (at (30, 45, 60) & (60%, 85%))
+			3*2 combinations + 1
+
+10		Turning (Differential Drive)													Video
+
+45		Adaptive Friction														Video
+	10	i)With and without control
+	30	ii)Two Slopes 45, 75
+	05	Transition		
+
+55		Impedance Control														Video
+	15	Side View/Differntial Stiffness (30,45,60)											Video
+	10	Camera Feedback (With and without Stabilisation)										Video
+	30	Collision impact reduction (With and without stabilisation)									Video 				
+
+		

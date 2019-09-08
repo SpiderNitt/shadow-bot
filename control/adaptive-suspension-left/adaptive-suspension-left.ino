@@ -59,7 +59,8 @@ double inputr = 0, outputr = 0, setpointr = 0;
 //TO BE FINE TUNED
 int i = 45; //Link angles
 
-double kpl = 1, kil = 0.0, kdl = 0/10000; // modify for optimal performance
+double kpl = 0.05, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+//double kpl = 0.05, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
@@ -79,7 +80,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  Serial.begin(9600); //initialize serial comunication
+  //Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -255,12 +256,12 @@ void pwmOutl(int controlinput)
   {
     controlinput = -150;
   }
-  if (controlinput>150)
+  if (controlinput>=150)
   {
     forwardl();
     analogWrite(LEnable,controlinput);
   }
-  else if(controlinput < -150)
+  else if(controlinput <= -150)
   {
     reversel();
     analogWrite(LEnable,abs(controlinput));
@@ -269,8 +270,7 @@ void pwmOutl(int controlinput)
   {
     finishl();
   }
-    Serial.println(controlinput);
-
+    //Serial.println(controlinput);
 }
 
 void forwardl () 
@@ -315,15 +315,12 @@ int remapl (int thetal)
 }
 int remapr (int thetar)
 {
-  // jack-proof
   int pulser = floor(13.667 * thetar);
   return pulser;
 }
 int invRemap(int counter)
 {
-  // jack-proof
   int angle = counter*0.073170732;
   linkangler = (angle%360);
-  //Serial.println(linkangler);
   return linkangler;
 }

@@ -57,9 +57,9 @@ double inputr = 0, outputr = 0, setpointr = 0;
 
 //IF THE MOTOR DRIVER HEATS UP, THE MOTORS GO CRAZY
 //TO BE FINE TUNED
-int i = 45; //Link angles
+int i = 0; //Link angles
 
-double kpl = 0.015, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+double kpl = 0.25, kil = 0.01, kdl = 6/10000; // modify for optimal performance
 //double kpl = 0.015, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
@@ -80,7 +80,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  //Serial.begin(9600); //initialize serial comunication
+  Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -115,7 +115,9 @@ void loop()
   setpointR = angleInp;
   thetar = invRemap(right_counter);
   thetal = invRemap(left_counter);
-  if (overshootflagl == 1)
+  Serial.println(left_counter);
+  Serial.println(millis());
+  /*if (overshootflagl == 1)
   {
     //Serial.println("Left Cutoff");
     finishl();
@@ -126,7 +128,7 @@ void loop()
     //Serial.println("Right Cutoff");
     finishr();
     delay(100);
-  }
+  }*/
   error = thetar - setpointR;
   errord = (error -preverror);
   errori += (error);
@@ -239,13 +241,13 @@ void updateREncoder()
 
 void pwmOutl(int controlinput) 
 {
-  if(controlinput > 230)
+  if(controlinput > 190)
   {
-    controlinput = 230;
+    controlinput = 190;
   }
-  else if( controlinput < -230)
+  else if( controlinput < -190)
   {
-    controlinput = -230;
+    controlinput = -190;
   }
   
   if(controlinput < 150 && controlinput >10)

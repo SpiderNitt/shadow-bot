@@ -10,9 +10,8 @@ int right_counter;
 
 //---------------- MOTOR PINS/VARIABLES ------------------//
 
-#define REnable 16 //Motor Enamble pin Runs on PWM signal
-#define RFwd  14   // Motor Forward pin
-#define RRev  15   // Motor Reverse pin
+#define REnable 6
+#define RDir  16  //Direction pin low moves the bot forward
 int User_InputR = 0;
 int REVR = 0;
 double error = 0;
@@ -27,7 +26,7 @@ unsigned long then = 0;
 unsigned long now = 0;
 double dt = 0;
 
-double kpr = 100.0, kir = 0, kdr = 0/10000; // modify for optimal performance
+double kpr = 0.25, kir = 0, kdr = 0/10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 //------------------------------------------------------------------//
@@ -47,8 +46,9 @@ void loop()
 {
   
   setpointR = angleInp;
-  Serial.println(right_counter);
+  
   theta = invRemap(right_counter);
+  Serial.println(controlinput);
   error = theta - setpointR;
   errord = (error -preverror);
   errori += (error);
@@ -86,8 +86,7 @@ void loop()
 void motorSetup()
 {
   pinMode(REnable, OUTPUT);
-  pinMode(RFwd, OUTPUT); 
-  pinMode(RRev, OUTPUT);
+  pinMode(RDir, OUTPUT); 
 }
 
 void updateREncoder()
@@ -115,20 +114,17 @@ void encoderSetup()
 
 void forwardr () 
 {
-  digitalWrite(RFwd, HIGH); 
-  digitalWrite(RRev, LOW); 
+  digitalWrite(RDir, LOW);  
 }
 
 void reverser () 
 {
-  digitalWrite(RFwd, LOW); 
-  digitalWrite(RRev, HIGH); 
+  digitalWrite(RDir, HIGH);  
 }
 
 void finishr () 
 {
-  digitalWrite(RFwd, LOW); 
-  digitalWrite(RRev, LOW); 
+  analogWrite(REnable, LOW);
 }
 
 int remap (int theta)

@@ -1,10 +1,10 @@
 //Code to rotate both Front motors in fwd direction
-#define LEnable 18
-#define LFwd  17  
-#define LRev  18
-#define REnable 15
-#define RRev  16  
-#define RFwd  14
+#define LEnable 5
+#define LDir  17    //Direction pin low moves the bot forward
+#define REnable 6
+#define RDir  16  //Direction pin low moves the bot forward
+
+
 void setup() 
   {
   pinMode(REnable, OUTPUT);
@@ -20,7 +20,7 @@ void loop()
     analogWrite(REnable,0);
     digitalWrite(RFwd,LOW);
     digitalWrite(RRev,LOW);          
-    analogWrite(LEnable,255);
+    analogWrite(LEnable,0);
     digitalWrite(LFwd,LOW);
     digitalWrite(LRev,LOW);
 }

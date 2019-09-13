@@ -20,18 +20,16 @@ int right_counter;
 
 //---------------- MOTOR PINS/VARIABLES FOR LEFT ------------------//
 
-#define LEnable 17 //Motor Enamble pin Runs on PWM signal
-#define LFwd  19  // Motor Forward pin
-#define LRev  18 // Motor Reverse pin
+#define LEnable 5 
+#define LDir  17 //Direction pin low moves the bot forward
 int User_InputL = 30;  // left Positive angle is down
 int REVL = 0;
 int linkanglel = 0;
 
 //---------------- MOTOR PINS/VARIABLES FOR RIGHT ------------------//
 
-#define REnable 16 //Motor Enamble pin Runs on PWM signal
-#define RFwd  14   // Motor Forward pin
-#define RRev  15   // Motor Reverse pin
+#define REnable 6
+#define RDir  16 //Direction pin low moves the bot forward
 int User_InputR = 0;
 int REVR = 0;
 int linkangler = 0;
@@ -59,7 +57,8 @@ double inputr = 0, outputr = 0, setpointr = 0;
 //TO BE FINE TUNED
 int i = 45; //Link angles
 
-double kpl = 0.3, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+double kpl = 0.0, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+//double kpl = 0.3, kil = 0.000, kdl = 0/10000; // modify for optimal performance
 //double kpl = 0.015, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
@@ -170,14 +169,12 @@ void loop()
 void motorSetupL()
 {
   pinMode(LEnable, OUTPUT);
-  pinMode(LFwd, OUTPUT); 
-  pinMode(LRev, OUTPUT);
+  pinMode(LDir, OUTPUT); 
 }
 void motorSetupR()
 {
   pinMode(REnable, OUTPUT);
-  pinMode(RFwd, OUTPUT); 
-  pinMode(RRev, OUTPUT);
+  pinMode(RDir, OUTPUT); 
 }
 
 void encoderSetupL()
@@ -280,37 +277,31 @@ void pwmOutl(int controlinput)
 
 void forwardl () 
 {
-  digitalWrite(LFwd, HIGH); 
-  digitalWrite(LRev, LOW); 
+  digitalWrite(LDir, LOW); 
 }
 
 void reversel () 
-{
-  digitalWrite(LFwd, LOW); 
-  digitalWrite(LRev, HIGH); 
+{ 
+  digitalWrite(LDir, HIGH); 
 }
 
 void finishl () 
 {
-  digitalWrite(LFwd, LOW); 
-  digitalWrite(LRev, LOW); 
+  digitalWrite(LEnable, LOW);  
 }
 void forwardr () 
 {
-  digitalWrite(RFwd, HIGH); 
-  digitalWrite(RRev, LOW); 
+  digitalWrite(RDir, LOW); 
 }
 
 void reverser () 
 {
-  digitalWrite(RFwd, LOW); 
-  digitalWrite(RRev, HIGH); 
+  digitalWrite(RDir, HIGH); 
 }
 
 void finishr () 
 {
-  digitalWrite(RFwd, LOW); 
-  digitalWrite(RRev, LOW); 
+  digitalWrite(REnable, LOW);  
 }
 
 int remapl (int thetal)

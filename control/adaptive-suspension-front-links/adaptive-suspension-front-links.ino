@@ -47,7 +47,7 @@ double controlinput = 0;
 double dt = 0;
 
 //JACK PROOF
-double kpr = 50, kir = 0 , kdr = 70; // modify for optimal performance
+double kpr = 5, kir = 0.00005 , kdr = .7; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 

@@ -5,8 +5,8 @@ def retTime(junkTime):
     return time
 
 if __name__ == "__main__":
-    filename = '2-log.txt'
-    cleanFilename = '2-clean-log.csv'
+    filename = '6-log.txt'
+    cleanFilename = '6-clean-log.csv'
     data = pd.read_csv(filename, sep=' ')
     time = data.iloc[:, 0]
     counter = data.iloc[:, 2]

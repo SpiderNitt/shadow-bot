@@ -11,7 +11,7 @@ int right_counter;
 //---------------- MOTOR PINS/VARIABLES ------------------//
 
 #define REnable 6
-#define RDir  16  //Direction pin low moves the bot forward
+#define RDir  19  //Direction pin low moves the bot forward
 int User_InputR = 0;
 int REVR = 0;
 double error = 0;
@@ -26,7 +26,7 @@ unsigned long then = 0;
 unsigned long now = 0;
 double dt = 0;
 
-double kpr = 0.25, kir = 0, kdr = 0/10000; // modify for optimal performance
+double kpr = .5, kir = 0.000, kdr = 0/10000; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 //------------------------------------------------------------------//
@@ -48,7 +48,7 @@ void loop()
   setpointR = angleInp;
   
   theta = invRemap(right_counter);
-  Serial.println(controlinput);
+  Serial.println(theta);
   error = theta - setpointR;
   errord = (error -preverror);
   errori += (error);
@@ -57,11 +57,11 @@ void loop()
   
   if( controlinput > 255)
   {
-    controlinput = 255;
+    controlinput = 180;
   }
   else if( controlinput < -255)
   {
-    controlinput = -255;
+    controlinput = -180;
   }
   if (controlinput>10)
   {

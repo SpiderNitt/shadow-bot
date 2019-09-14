@@ -21,7 +21,7 @@ int right_counter;
 //---------------- MOTOR PINS/VARIABLES FOR LEFT ------------------//
 
 #define LEnable 5 
-#define LDir  17 //Direction pin low moves the bot forward
+#define LDir  18 //Direction pin low moves the bot forward
 int User_InputL = 30;  // left Positive angle is down
 int REVL = 0;
 int linkanglel = 0;
@@ -29,7 +29,7 @@ int linkanglel = 0;
 //---------------- MOTOR PINS/VARIABLES FOR RIGHT ------------------//
 
 #define REnable 6
-#define RDir  16 //Direction pin low moves the bot forward
+#define RDir  19 //Direction pin low moves the bot forward
 int User_InputR = 0;
 int REVR = 0;
 int linkangler = 0;
@@ -47,7 +47,7 @@ double controlinput = 0;
 double dt = 0;
 
 //JACK PROOF
-double kpr = 5.0, kir = 0, kdr = 0 /10000; // modify for optimal performance
+double kpr = 50, kir = 0, kdr =  75; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
@@ -79,7 +79,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  //Serial.begin(9600); //initialize serial comunication
+  Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -99,8 +99,8 @@ void setup()
 void loop() 
 {
 
-  angleInp = -60;     //right, negative here is downward in bot
-  User_InputL = 45;   //left, positive here is downward in bot
+  angleInp = -i;     //right, negative here is downward in bot
+  User_InputL = i;   //left, positive here is downward in bot
   
   REVL = remapl(User_InputL);
   setpointl = REVL;
@@ -114,6 +114,8 @@ void loop()
   setpointR = angleInp;
   thetar = invRemap(right_counter);
   thetal = invRemap(left_counter);
+  Serial.println(right_counter);
+ // Serial.println(millis());
  /* if (overshootflagl == 1)
   {
     //Serial.println("Left Cutoff");
@@ -134,19 +136,19 @@ void loop()
   
   if(controlinput > 230)
   {
-    controlinput = 230;
+    controlinput = 180;
   }
   else if( controlinput < -230)
   {
-    controlinput = -230;
+    controlinput = -180;
   }
     if(controlinput < 120 && controlinput > 10)
   {
-    controlinput = 120;
+    controlinput = 100;
   }
   else if( controlinput > -120 && controlinput< -10 )
   {
-    controlinput = -120;
+    controlinput = -100;
   }
   if (controlinput>120)
   {

@@ -8,15 +8,21 @@ void setup()
   pinMode(2,OUTPUT);
   pinMode(4,OUTPUT);
   pinMode(14,INPUT);
-  digitalWrite(2,LOW);
-  digitalWrite(3,HIGH);  
-  Serial.begin(9600);
+  pinMode(8,OUTPUT);
+  digitalWrite(4,LOW);
+  digitalWrite(2,HIGH);
+  digitalWrite(8,HIGH);
+//  Serial.begin(9600);
 }
 
 void loop()
 {
-int throttle = analogRead(A0); //Read the voltage from POT
-throttle = map(throttle, 0, 255, 0, 150); //Map the values of 0-102 from pot to 0-180 bcs servo works only from 0-180
-Serial.println(throttle);
+int throttle = analogRead(14); //Read the voltage from POT
+//Serial.println(throttle);
+throttle = map(throttle, 0, 1023, 0, 180); //Map the values of 0-102 from pot to 0-180 bcs servo works only from 0-180
+//Serial.println(throttle);
+if(millis()<40000)
 ESC.write(throttle); //based on the value of throttle generate PWM signal
+else
+ESC.write(180);
 }

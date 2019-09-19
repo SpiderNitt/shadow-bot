@@ -16,6 +16,8 @@ void setup()
   pinMode(LFwd, OUTPUT); 
   pinMode(LRev, OUTPUT);
   Serial.begin(9600);
+  digitalWrite(RRev,LOW);
+  digitalWrite(LRev,LOW);
     
   }
 void loop()
@@ -23,11 +25,7 @@ void loop()
     analogWrite(REnable,255);
     digitalWrite(RFwd,HIGH);
        
-    analogWrite(LEnable,150);
+    analogWrite(LEnable,255);
     digitalWrite(LFwd,HIGH);
-    delay(50);
-    digitalWrite(LFwd,LOW);
-    delay(50);
-    digitalWrite(RRev,LOW);
-    digitalWrite(LRev,LOW);
+
 }

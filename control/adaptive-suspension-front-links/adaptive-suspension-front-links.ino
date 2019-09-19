@@ -47,7 +47,7 @@ double controlinput = 0;
 double dt = 0;
 
 //JACK PROOF
-double kpr = 5, kir = 0.00005 , kdr = .7; // modify for optimal performance
+double kpr = .25, kir = 0.0000 , kdr = 0; // modify for optimal performance
 double inputr = 0, outputr = 0, setpointr = 0;
 
 
@@ -55,14 +55,16 @@ double inputr = 0, outputr = 0, setpointr = 0;
 
 //IF THE MOTOR DRIVER HEATS UP, THE MOTORS GO CRAZY
 //TO BE FINE TUNED
-int i = 45; //Link angles
+int i = 90; //Link angles
 
-double kpl = 0.0, kil = 0.000, kdl = 0/10000; // modify for optimal performance
+double kpl = .015, kil = 0.000, kdl = 0/10000; // modify for optimal performance
 //double kpl = 0.3, kil = 0.000, kdl = 0/10000; // modify for optimal performance
 //double kpl = 0.015, kil = 0.000, kdl = 0/10000; // impedance left paramters for springy action
 double inputl = 0, outputl = 0, setpointl = 0;
 double thetal = 0;
 int overshootflagl = 0;
+
+long double count=0;
 
 PID myPIDL(&inputl, &outputl, &setpointl, kpl, kil, kdl, DIRECT);
 
@@ -79,7 +81,7 @@ void setup()
 {
   motorSetupL();
   motorSetupR();
-  Serial.begin(9600); //initialize serial comunication
+  //Serial.begin(9600); //initialize serial comunication
   encoderSetupL();      //Serial communication is messing with the timers and analog pin output
   encoderSetupR();
   
@@ -114,7 +116,9 @@ void loop()
   setpointR = angleInp;
   thetar = invRemap(right_counter);
   thetal = invRemap(left_counter);
-  Serial.println(right_counter);
+ // Serial.println(right_counter);
+  //Serial.print(',');
+ // Serial.println(TCNT1);
  // Serial.println(millis());
  /* if (overshootflagl == 1)
   {
@@ -136,26 +140,26 @@ void loop()
   
   if(controlinput > 230)
   {
-    controlinput = 180;
+    controlinput = 230;
   }
   else if( controlinput < -230)
   {
-    controlinput = -180;
+    controlinput = -230;
   }
-    if(controlinput < 120 && controlinput > 10)
+    if(controlinput < 50 && controlinput > 10)
   {
-    controlinput = 100;
+    controlinput = 50;
   }
-  else if( controlinput > -120 && controlinput< -10 )
+  else if( controlinput > -50 && controlinput< -10 )
   {
-    controlinput = -100;
+    controlinput = -50;
   }
-  if (controlinput>120)
+  if (controlinput>=50)
   {
     forwardr();
     analogWrite(REnable,controlinput);
   }
-  else if(controlinput < -120)
+  else if(controlinput <= -50)
   {
     reverser();
     analogWrite(REnable,abs(controlinput));
@@ -166,6 +170,7 @@ void loop()
   }
  
   preverror = error;
+  //Serial.println(controlinput);
 }
 
 void motorSetupL()
@@ -247,15 +252,15 @@ void pwmOutl(int controlinput)
     controlinput = -230;
   }
   
-  if(controlinput < 150 && controlinput >10)
+  if(controlinput < 50 && controlinput >10)
   {
-    controlinput = 150;
+    controlinput = 50;
   }
-  else if( controlinput > -150 && controlinput < -10)
+  else if( controlinput > -50 && controlinput < -10)
   {
-    controlinput = -150;
+    controlinput = -50;
   }
-  if (controlinput>=150)
+  if (controlinput>=50)
   {
     forwardl();
     analogWrite(LEnable,controlinput);
@@ -263,7 +268,7 @@ void pwmOutl(int controlinput)
     //analogWrite(REnable,controlinput);
 
   }
-  else if(controlinput <= -150)
+  else if(controlinput <= -50)
   {
     reversel();
     analogWrite(LEnable,abs(controlinput));

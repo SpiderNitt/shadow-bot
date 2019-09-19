@@ -19,8 +19,8 @@ void loop()
   digitalWrite(8,HIGH);
 //  e.speed(1750);
 //  delay(10);
-  for (int oESC = SPEED_MIN+500; oESC <= SPEED_MAX; oESC += 1) {  // goes from 1000 microseconds to 2000 microseconds
+  for (int oESC = SPEED_MIN+500; oESC <= SPEED_MAX; oESC += 5) {  // goes from 1000 microseconds to 2000 microseconds
     e.speed(oESC);                                    // tell ESC to go to the oESC speed value
-    delay(10);                                            // waits 10ms for the ESC to reach speed
-  }
+    delay(10);  }                                          // waits 10ms for the ESC to reach speed
+  
 }

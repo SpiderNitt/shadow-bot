@@ -15,7 +15,7 @@ void setup()
   }
 void loop()
 {
-    analogWrite(REnable,125);
+    analogWrite(REnable,60);
     digitalWrite(RDir,HIGH);
     analogWrite(LEnable,0);
     digitalWrite(LDir,LOW);

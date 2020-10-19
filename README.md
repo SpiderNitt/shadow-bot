@@ -3,6 +3,9 @@ An all-terrain vehicle with an adaptive suspension that is capable of climbing o
 
 ![bot](https://github.com/spider-tronix/shadow-bot/blob/master/design/renders/bot-isometric1.jpg)
 
+# Research Paper:
+[Ibex: A reconfigurable ground vehicle with adaptive terrain navigation capability](https://ieeexplore.ieee.org/document/9196571)
+
 # Team:
   
 ![team](https://github.com/spider-tronix/shadow-bot/blob/master/team.png)
